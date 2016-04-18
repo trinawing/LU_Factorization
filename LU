@@ -7,7 +7,7 @@
 using namespace std;
 
 // Remember for later use that this must be a square matrix(and other stuff from linear like invertable)
-// if getting nan back for an  answer it means no soln
+
 
 int main()
 {
