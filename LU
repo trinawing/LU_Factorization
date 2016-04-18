@@ -1,0 +1,103 @@
+// This is solving a matrix using lu factoriztion.
+ 
+#include <iostream>
+#include <cmath>
+#include <vector>
+
+using namespace std;
+
+// Remember for later use that this must be a square matrix(and other stuff from linear like invertable)
+// if getting nan back for an  answer it means no soln
+
+int main()
+{
+    int n,i,k,j,p;
+    float a[10][10],l[10][10]={0},u[10][10]={0},sum,b[10],z[10]={0},x[10]={0};
+
+    cout << "Enter how many rows for matrix:  \n ";
+    cin >> n;
+    cout << "Enter coefficients in row format: \n ";
+
+        for(i=1; i<=n ;i++)
+         {
+        cout << "\nRow " << i << "  ";
+        for(j=1; j<=n; j++)
+            cin>> a[i][j];
+         }
+
+    cout << "Enter vector b: \n";
+
+         for(i=1; i<=n; i++)
+         cin >> b[i];
+
+// Lu factorization
+
+  for(k=1; k<=n; k++)
+         {
+         u[k][k]=1;
+
+         for(i=k; i<=n; i++)
+         {
+            sum=0;
+
+                 for(p=1; p<=k-1; p++)
+                 sum+=l[i][p]*u[p][k];
+                 l[i][k]=a[i][k]-sum;
+        }
+
+        for(j=k+1; j<=n; j++)
+        {
+            sum=0;
+                 for(p=1; p<=k-1; p++)
+                 sum+=l[k][p]*u[p][j];
+                 u[k][j]=(a[k][j]-sum)/l[k][k];
+        }
+        }
+
+//display
+        cout << endl << endl <<"LU matrix is:" << endl;
+         for(i=1; i<=n; i++)
+         {
+
+         for(j=1; j<=n; j++)
+            cout << l[i][j]<<"  ";
+                cout << endl;
+         }
+
+         cout << endl;
+         for(i=1; i<=n; i++)
+         {
+
+         for(j=1; j<=n; j++)
+            cout << u[i][j]<<"  ";
+         cout << endl;
+         }
+    //forward sub
+
+    for(i=1; i<=n; i++)
+    {
+        sum=0;
+        for(p=1; p<i; p++)
+        sum +=l[i][p]*z[p];
+        z[i] =(b[i]-sum)/l[i][i];
+    }
+    //solving for x
+
+    for(i=n; i>0; i--)
+    {
+        sum=0;
+        for(p=n; p>i; p--)
+            sum+=u[i][p]*x[p];
+        x[i] =(z[i]-sum)/u[i][i];
+   }
+
+    cout <<"The soln is: \n";
+    for(i=1; i<=n; i++)
+        cout << endl << x[i];
+
+
+    return 0;
+}
+
+
+
